@@ -1,0 +1,35 @@
+/* Highlight the active link */
+.nav-link.active {
+  background-color: #495057;
+  font-weight: bold;
+  border-radius: 0.25rem;
+}
+
+/* Smooth hover effect */
+.nav-link:hover {
+  background-color: #6c757d;
+  color: white;
+  transition: background-color 0.3s ease;
+}
+
+/* Optional: sidebar shadow effect */
+.sidebar {
+  min-height: 100vh;
+  transition: all 0.3s ease;
+}
+
+/* Animate page content appearance */
+main {
+  animation: fadeIn 0.4s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

@@ -1,0 +1,35 @@
+<div class="leave-status-container">
+  <h2 class="leave-status-title">Leave Status</h2>
+  <button class="btn btn-secondary mb-3" (click)="onRefresh()">Refresh</button>
+
+  <table class="table table-bordered table-hover text-center">
+    <thead class="table-dark">
+      <tr>
+        <th>#</th>
+        <th>Applied Date</th>
+        <th>Leave Type</th>
+        <th>Start Date</th>
+        <th>End Date</th>
+        <th>Reason</th>
+        <th>Status</th>
+        <th>Manager Comment</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let leave of leaveApplications; index as i">
+        <td data-label="#"> {{ i + 1 }} </td>
+        <td data-label="Applied Date"> {{ leave.appliedDate | date:'shortDate' }} </td>
+        <td data-label="Leave Type"> {{ leave.leaveType }} </td>
+        <td data-label="Start Date"> {{ leave.startDate }} </td>
+        <td data-label="End Date"> {{ leave.endDate }} </td>
+        <td data-label="Reason"> {{ leave.reason }} </td>
+        <td data-label="Status">
+          <span [ngClass]="getStatusClass(leave.status)">
+            {{ leave.status }}
+          </span>
+        </td>
+        <td data-label="Manager Comment"> {{ leave.managerComment || '-' }} </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

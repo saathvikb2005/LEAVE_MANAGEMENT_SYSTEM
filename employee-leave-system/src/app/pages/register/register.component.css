@@ -1,0 +1,106 @@
+
+.register-container {
+  max-width: 480px;
+  margin: 60px auto;
+  padding: 35px 30px;
+  background-color: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  animation: fadeInSlideDown 0.5s ease forwards;
+  transition: all 0.3s ease-in-out;
+}
+
+
+.register-container h2 {
+  text-align: center;
+  margin-bottom: 25px;
+  font-weight: 700;
+  font-size: 1.8rem;
+  color: #333;
+}
+
+
+.form-label {
+  font-weight: 600;
+  font-size: 1rem;
+  margin-bottom: 5px;
+  display: inline-block;
+  color: #222;
+}
+
+/* Input fields */
+.form-control {
+  padding: 10px 12px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: none;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-control:focus {
+  border-color: #0d6efd;
+  box-shadow: 0 0 0 0.15rem rgba(13, 110, 253, 0.25);
+  outline: none;
+}
+
+/* Buttons */
+.btn-primary {
+  background-color: #0d6efd;
+  border-color: #0d6efd;
+  transition: all 0.3s ease;
+  padding: 10px;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 8px;
+}
+
+.btn-primary:hover {
+  background-color: #0b5ed7;
+  border-color: #0b5ed7;
+}
+
+/* Paragraph below form */
+.register-container p {
+  margin-top: 25px;
+  text-align: center;
+  font-size: 0.95rem;
+  color: #555;
+}
+
+/* Links */
+.register-container a {
+  color: #0d6efd;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.register-container a:hover {
+  text-decoration: underline;
+}
+
+/* Animation for fade in and slight slide down */
+@keyframes fadeInSlideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive spacing for small screens */
+@media (max-width: 576px) {
+  .register-container {
+    padding: 25px 20px;
+    margin: 40px 15px;
+  }
+
+  .register-container h2 {
+    font-size: 1.5rem;
+  }
+}

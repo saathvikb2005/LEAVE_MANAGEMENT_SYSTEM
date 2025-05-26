@@ -1,0 +1,9 @@
+<div class="holiday-section">
+  <h4>🎉 Upcoming Holidays</h4>
+  <ul class="list-group">
+    <li *ngFor="let holiday of holidays" class="list-group-item d-flex justify-content-between">
+      <span>{{ holiday.name }}</span>
+      <span>{{ holiday.date }}</span>
+    </li>
+  </ul>
+</div>

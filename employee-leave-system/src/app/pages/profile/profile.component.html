@@ -1,0 +1,88 @@
+<div class="profile-wrapper">
+  <div class="profile-container">
+    <h2 class="mb-4 text-center">Your Profile</h2>
+
+    <div *ngIf="loading" class="text-center">Loading...</div>
+    <div *ngIf="errorMsg" class="alert alert-danger">{{ errorMsg }}</div>
+
+    <form *ngIf="user" (ngSubmit)="updateUserProfile()">
+      <div class="mb-3">
+        <label for="username"><strong>Username:</strong></label>
+        <input
+          id="username"
+          [(ngModel)]="user.username"
+          name="username"
+          class="form-control"
+          readonly
+          placeholder="Your username"
+          title="Username"
+        />
+      </div>
+
+      <div class="mb-3">
+        <label for="name"><strong>Name:</strong></label>
+        <input
+          id="name"
+          [(ngModel)]="user.name"
+          name="name"
+          class="form-control"
+          required
+          placeholder="Enter your full name"
+          title="Name"
+        />
+      </div>
+
+      <div class="mb-3">
+        <label for="email"><strong>Email:</strong></label>
+        <input
+          id="email"
+          [(ngModel)]="user.email"
+          name="email"
+          type="email"
+          class="form-control"
+          required
+          placeholder="Enter your email"
+          title="Email"
+        />
+      </div>
+
+      <div class="mb-3">
+        <label for="phone"><strong>Phone:</strong></label>
+        <input
+          id="phone"
+          [(ngModel)]="user.phone"
+          name="phone"
+          class="form-control"
+          placeholder="Enter your phone number"
+          title="Phone number"
+        />
+      </div>
+
+      <div class="mb-3">
+        <label for="department"><strong>Department:</strong></label>
+        <input
+          id="department"
+          [(ngModel)]="user.department"
+          name="department"
+          class="form-control"
+          placeholder="Enter your department"
+          title="Department"
+        />
+      </div>
+
+      <div class="mb-3" *ngIf="user.manager">
+        <label for="manager"><strong>Manager:</strong></label>
+        <input
+          id="manager"
+          [value]="user.manager.userId"
+          class="form-control"
+          readonly
+          placeholder="Your manager's name"
+          title="Manager name"
+        />
+      </div>
+
+      <button type="submit" class="btn btn-primary">Update Profile</button>
+    </form>
+  </div>
+</div>

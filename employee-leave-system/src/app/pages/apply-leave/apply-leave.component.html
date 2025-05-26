@@ -1,0 +1,89 @@
+<div class="apply-leave-container">
+  <h2 class="title">Apply for Leave</h2>
+
+  <form (ngSubmit)="onSubmit()" #leaveForm="ngForm" class="leave-form">
+    
+    <!-- Leave Type -->
+    <div class="form-group">
+      <label for="leaveType" class="form-label">Leave Type</label>
+      <select
+        id="leaveType"
+        class="form-input"
+        [(ngModel)]="leaveType"
+        name="leaveType"
+        required
+        #leaveTypeField="ngModel"
+      >
+        <option value="" disabled selected>Select leave type</option>
+        <option value="SICK_LEAVE">Sick Leave</option>
+        <option value="CASUAL_LEAVE">Casual Leave</option>
+        <option value="ANNUAL_LEAVE">Annual Leave</option>
+        <!-- Add other leave types as needed -->
+      </select>
+      <div class="error" *ngIf="leaveTypeField.invalid && leaveTypeField.touched">
+        Leave type is required.
+      </div>
+    </div>
+
+    <!-- Start Date -->
+    <div class="form-group">
+      <label for="startDate" class="form-label">Start Date</label>
+      <input
+        type="date"
+        id="startDate"
+        class="form-input"
+        [(ngModel)]="startDate"
+        name="startDate"
+        required
+        #startDateField="ngModel"
+      />
+      <div class="error" *ngIf="startDateField.invalid && startDateField.touched">
+        Start date is required.
+      </div>
+    </div>
+
+    <!-- End Date -->
+    <div class="form-group">
+      <label for="endDate" class="form-label">End Date</label>
+      <input
+        type="date"
+        id="endDate"
+        class="form-input"
+        [(ngModel)]="endDate"
+        name="endDate"
+        required
+        #endDateField="ngModel"
+      />
+      <div class="error" *ngIf="endDateField.invalid && endDateField.touched">
+        End date is required.
+      </div>
+    </div>
+
+    <!-- Reason -->
+    <div class="form-group">
+      <label for="reason" class="form-label">Reason for Leave</label>
+      <textarea
+        id="reason"
+        class="form-textarea"
+        [(ngModel)]="reason"
+        name="reason"
+        rows="4"
+        placeholder="Provide a brief reason"
+        required
+        #reasonField="ngModel"
+      ></textarea>
+      <div class="error" *ngIf="reasonField.invalid && reasonField.touched">
+        Reason is required.
+      </div>
+    </div>
+
+    <!-- Submit Button -->
+    <button
+      type="submit"
+      class="btn-submit"
+      [disabled]="leaveForm.invalid"
+    >
+      Submit Leave
+    </button>
+  </form>
+</div>

@@ -1,0 +1,31 @@
+<div class="container py-4">
+  <h3 class="mb-4">Admin Analytics Dashboard</h3>
+
+  <div class="stats mb-4">
+    <p><strong>Total Leave Requests:</strong> {{ totalLeaves }}</p>
+    <p><strong>Approved Leaves:</strong> {{ approvedLeaves }}</p>
+    <p><strong>Rejected Leaves:</strong> {{ rejectedLeaves }}</p>
+    <p><strong>Pending Leaves:</strong> {{ pendingLeaves }}</p>
+    <p><strong>Average Leave Duration:</strong> {{ avgLeaveDuration }} days</p>
+  </div>
+
+  <div class="d-flex gap-4 flex-wrap">
+    <div class="chart-box flex-fill" style="min-width: 300px; max-width: 600px;">
+      <h4>Leave Status Distribution</h4>
+      <canvas baseChart
+              [data]="pieChartData"
+              [type]="pieChartType"
+              [options]="pieChartOptions">
+      </canvas>
+    </div>
+
+    <div class="chart-box flex-fill" style="min-width: 300px; max-width: 600px;">
+      <h4>Leaves Over Last 6 Months</h4>
+      <canvas baseChart
+              [data]="barChartData"
+              [type]="barChartType"
+              [options]="barChartOptions">
+      </canvas>
+    </div>
+  </div>
+</div>

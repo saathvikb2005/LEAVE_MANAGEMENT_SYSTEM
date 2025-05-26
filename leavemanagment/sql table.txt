@@ -1,0 +1,91 @@
+Thanks! You've shared the structure of the users table. Here's a cleaner version of it formatted properly, followed by the matching leave\_applications table (since we are using only two tables).
+
+📄 Final Two-Table Schema
+
+1. users
+
+| Field       | Type         | Description                     |
+| ----------- | ------------ | ------------------------------- |
+| user\_id    | INT (PK)     | Unique user ID                  |
+| username    | VARCHAR(50)  | Login username                  |
+| password    | VARCHAR(255) | Hashed password                 |
+| role        | ENUM         | 'admin', 'employee', 'manager'  |
+| name        | VARCHAR(50)  | Full name                       |
+| email       | VARCHAR(100) | Email address                   |
+| phone       | VARCHAR(15)  | Phone number                    |
+| department  | VARCHAR(50)  | Department name                 |
+| manager\_id | INT (FK)     | References user\_id (self-join) |
+
+2. leave\_applications
+
+| Field            | Type        | Description                        |
+| ---------------- | ----------- | ---------------------------------- |
+| leave\_id        | INT (PK)    | Unique leave request ID            |
+| user\_id         | INT (FK)    | Reference to requesting user       |
+| leave\_type      | VARCHAR(50) | Type of leave (e.g., Sick, Casual) |
+| start\_date      | DATE        | Leave start date                   |
+| end\_date        | DATE        | Leave end date                     |
+| reason           | TEXT        | Reason for leave                   |
+| status           | ENUM        | 'pending', 'approved', 'rejected'  |
+| applied\_date    | TIMESTAMP   | Date the leave was applied for     |
+| manager\_comment | TEXT        | Optional comment from manager      |
+
+Would you like me to generate the SQL CREATE TABLE statements for both?
+Great question!
+
+If you include a managerId field in the users table (as in your case), you're essentially modeling a hierarchy where each employee can have a manager (who is also a user). Managers are treated as users with a specific role: role = 'manager'.
+
+🧩 How Manager Login Works:
+
+There’s no separate table or logic for managers — managers are just users whose role is set to "manager".
+
+✅ Step-by-step explanation:
+
+1. During registration or database seeding:
+
+   * You create users with role = 'employee' or role = 'manager' or role = 'admin'.
+   * For example:
+
+     * user\_id = 1, username = "john", role = "employee", managerId = 2
+     * user\_id = 2, username = "susan", role = "manager", managerId = null
+
+2. During login:
+
+   * Your authentication system checks the username and password in the users table.
+   * Once authenticated, you fetch the user’s role:
+
+     * If role = "manager", you show manager-specific dashboard (like reviewing employee leave requests).
+     * If role = "employee", you show employee features (apply for leave, etc.).
+     * If role = "admin", you show admin control panel.
+
+3. Sample login controller logic (pseudo Java Spring Boot):
+
+```java
+@PostMapping("/login")
+public ResponseEntity<?> login(@RequestBody LoginRequest request) {
+    User user = userRepository.findByUsername(request.getUsername());
+    if (user == null || !passwordEncoder.matches(request.getPassword(), user.getPassword())) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
+    }
+
+    if ("manager".equals(user.getRole())) {
+        // Redirect or respond with manager-specific data
+        return ResponseEntity.ok("Welcome Manager " + user.getName());
+    } else if ("employee".equals(user.getRole())) {
+        // Redirect or respond with employee-specific data
+        return ResponseEntity.ok("Welcome Employee " + user.getName());
+    } else if ("admin".equals(user.getRole())) {
+        return ResponseEntity.ok("Welcome Admin");
+    } else {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid role");
+    }
+}
+```
+
+💡 Summary:
+
+* Managers are just users with role = 'manager'.
+* Login checks role to decide what interface or permissions to grant.
+* managerId is used for reporting structure — not for login.
+
+Would you like me to help you implement a login form or role-based dashboard redirection?
