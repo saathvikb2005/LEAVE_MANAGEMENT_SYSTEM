@@ -1,8 +1,8 @@
 <div class="apply-leave-container">
   <h2 class="title">Apply for Leave</h2>
 
-  <form (ngSubmit)="onSubmit()" #leaveForm="ngForm" class="leave-form">
-    
+  <form #leaveForm="ngForm" class="leave-form" (ngSubmit)="onSubmit()">
+
     <!-- Leave Type -->
     <div class="form-group">
       <label for="leaveType" class="form-label">Leave Type</label>
@@ -18,7 +18,6 @@
         <option value="SICK_LEAVE">Sick Leave</option>
         <option value="CASUAL_LEAVE">Casual Leave</option>
         <option value="ANNUAL_LEAVE">Annual Leave</option>
-        <!-- Add other leave types as needed -->
       </select>
       <div class="error" *ngIf="leaveTypeField.invalid && leaveTypeField.touched">
         Leave type is required.
@@ -77,13 +76,47 @@
       </div>
     </div>
 
-    <!-- Submit Button -->
-    <button
-      type="submit"
-      class="btn-submit"
-      [disabled]="leaveForm.invalid"
-    >
-      Submit Leave
-    </button>
+    <!-- Buttons: Check Recommendation & Submit -->
+    <div class="form-group d-flex gap-2">
+      <button
+        type="button"
+        class="btn btn-info"
+        (click)="checkAIRecommendation()"
+        [disabled]="leaveForm.invalid || isLoadingRecommendation"
+      >
+        {{ isLoadingRecommendation ? 'Checking...' : 'Check Recommendation' }}
+      </button>
+
+      <button
+        type="submit"
+        class="btn btn-primary"
+        [disabled]="leaveForm.invalid"
+      >
+        Submit Leave
+      </button>
+    </div>
+
   </form>
+
+  <!-- AI Recommendation message display -->
+  <div *ngIf="aiRecommendation" class="alert alert-secondary mt-3" role="alert">
+    🤖 AI Recommendation: {{ aiRecommendation }}
+  </div>
+
+  <!-- Suggested leave date ranges -->
+  <div *ngIf="suggestedLeaveRanges.length > 0" class="mt-3">
+    <h5>Suggested Leave Date Ranges:</h5>
+    <ul class="list-group">
+      <li 
+        *ngFor="let range of suggestedLeaveRanges" 
+        class="list-group-item list-group-item-action"
+        style="cursor:pointer"
+        (click)="useSuggestedDates(range)"
+        title="Click to autofill these dates"
+      >
+        From <strong>{{range.start}}</strong> to <strong>{{range.end}}</strong>
+      </li>
+    </ul>
+    <small class="text-muted">Click on any suggested date range to autofill the leave form.</small>
+  </div>
 </div>

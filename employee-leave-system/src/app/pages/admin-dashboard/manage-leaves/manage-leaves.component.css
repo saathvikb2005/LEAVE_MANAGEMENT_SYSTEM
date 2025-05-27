@@ -19,3 +19,13 @@ button:hover {
   transform: scale(1.05);
   transition: transform 0.2s ease;
 }
+
+.table td, .table th {
+  vertical-align: middle;
+}
+
+.badge {
+  font-size: 0.9rem;
+  padding: 0.5em 0.75em;
+}
+

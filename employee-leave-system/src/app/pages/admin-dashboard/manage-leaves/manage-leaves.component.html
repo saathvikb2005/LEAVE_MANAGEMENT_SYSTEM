@@ -1,8 +1,32 @@
-<div class="container-fluid py-3">
-  <h3 class="mb-4">📋 Manage Leave Requests</h3>
+<div class="container mt-4">
+  <h2 class="text-center mb-4">Manage Leave Requests</h2>
 
-  <div class="table-responsive shadow-sm">
-    <table class="table table-bordered table-hover align-middle bg-white">
+  <!-- Date Range Filter -->
+  <div class="row mb-3">
+    <div class="col-md-5">
+      <label for="fromDate" class="form-label">From Date:</label>
+      <input type="date" id="fromDate" class="form-control" [(ngModel)]="fromDate" (change)="onDateChange()" />
+    </div>
+    <div class="col-md-5">
+      <label for="toDate" class="form-label">To Date:</label>
+      <input type="date" id="toDate" class="form-control" [(ngModel)]="toDate" (change)="onDateChange()" />
+    </div>
+    <div class="col-md-2 d-flex align-items-end">
+      <div class="alert alert-info w-100">
+        <strong>On Leave:</strong> {{ employeesOnLeave }} / {{ totalEmployees }}
+      </div>
+    </div>
+  </div>
+
+  <!-- Names on Leave -->
+  <div *ngIf="employeesOnLeaveNames.length > 0" class="mb-3">
+    <strong>Employees on leave:</strong>
+    <span class="badge bg-primary me-1" *ngFor="let name of employeesOnLeaveNames">{{ name }}</span>
+  </div>
+
+  <!-- Leave Requests Table -->
+  <div class="table-responsive">
+    <table class="table table-bordered table-striped align-middle">
       <thead class="table-dark">
         <tr>
           <th>Employee</th>
@@ -10,7 +34,8 @@
           <th>To</th>
           <th>Reason</th>
           <th>Status</th>
-          <th class="text-center">Actions</th>
+          <th>Actions</th>
+          <th>AI Suggestion</th>
         </tr>
       </thead>
       <tbody>
@@ -20,29 +45,25 @@
           <td>{{ leave.toDate }}</td>
           <td>{{ leave.reason }}</td>
           <td>
-            <span 
-              class="badge" 
+            <span class="badge"
               [ngClass]="{
-                'bg-secondary': leave.status === 'PENDING',
+                'bg-warning text-dark': leave.status === 'PENDING',
                 'bg-success': leave.status === 'APPROVED',
                 'bg-danger': leave.status === 'REJECTED'
               }">
               {{ leave.status }}
             </span>
           </td>
-          <td class="text-center">
-            <button 
-              class="btn btn-success btn-sm me-2"
-              (click)="approveLeave(leave.leaveId)"
-              [disabled]="leave.status !== 'PENDING'">
-              ✅ Approve
-            </button>
-            <button 
-              class="btn btn-danger btn-sm"
-              (click)="rejectLeave(leave.leaveId)"
-              [disabled]="leave.status !== 'PENDING'">
-              ❌ Reject
-            </button>
+          <td>
+            <button class="btn btn-success btn-sm me-1" (click)="approveLeave(leave.leaveId)" [disabled]="leave.status !== 'PENDING'">Approve</button>
+            <button class="btn btn-danger btn-sm me-1" (click)="rejectLeave(leave.leaveId)" [disabled]="leave.status !== 'PENDING'">Reject</button>
+            <button class="btn btn-info btn-sm" (click)="getAIRecommendation(leave)">AI Suggest</button>
+          </td>
+          <td>
+            <div *ngIf="recommendationLeaveId === leave.leaveId">
+              <p class="mb-0"><strong>{{ aiRecommendation }}</strong></p>
+              <small class="text-muted">{{ aiMessage }}</small>
+            </div>
           </td>
         </tr>
       </tbody>
